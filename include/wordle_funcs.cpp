@@ -50,23 +50,22 @@ string find_matching_word(const struct wordle_state_t *state, const vector<strin
     for (int i = 0; i < (int)words.size();) {
         string candidate = words[i];
         
-        char letter_index = candidate[0] - 'a';
-        if ((state->letter_flags[0] & (1 << letter_index)) == 0) {
-            i = partitions[nextPartition];
-            nextPartition++;
-            continue;
-        }
+        // char letter_index = candidate[0] - 'a';
+        // if ((state->letter_flags[0] & (1 << letter_index)) == 0) {
+        //     i = partitions[nextPartition];
+        //     nextPartition++;
+        //     continue;
+        // }
 
-        if (letters_allowed(state, candidate)) {
-          if (letters_required(state, candidate)) {
+        if (letters_allowed(state, candidate) && letters_required(state, candidate)) {
           return candidate;
-        }}
+        }
 
         i++;
         match_loop++;
-        if (words[i][0] != words[i-1][0]) {
-            nextPartition++;
-        }
+        // if (words[i][0] != words[i-1][0]) {
+        //     nextPartition++;
+        // }
     }
     return "";
 }
@@ -74,8 +73,8 @@ string find_matching_word(const struct wordle_state_t *state, const vector<strin
 void init_state(wordle_state_t *state) {
     for (int i = 0; i < 5; i ++) {
         state->letter_flags[i] = 0x03ffffff;
-        state->letters->count = 0;
-        state->letters->letter_index = 0;
+        state->letters[i].count = 0;
+        state->letters[i].letter_index = 0;
     }
 }
 
